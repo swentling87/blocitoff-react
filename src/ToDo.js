@@ -30,15 +30,11 @@ var ToDo = React.createClass({
     this.firebaseRef.off();
   },
 
-  removeItem: function(key) {
-    var firebaseRef = firebase.database().ref('blocitoff-react/items');;
-    firebaseRef.child(key).remove();
-  },
 
   render: function() {
     return (
       <div>
-        <TaskTable items={ this.state.items } removeItem={ this.removeItem } />
+        <TaskTable items={ this.state.items } />
       </div>
     );
   }
