@@ -1,4 +1,5 @@
 import React from 'react';
+var firebase = require("firebase");
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -9,6 +10,21 @@ import RaisedButton from 'material-ui/RaisedButton';
 export default class DialogExampleModal extends React.Component {
   state = {
     open: false,
+    text: ""
+  };
+  
+  componentWillMount = () => {
+    this.firebaseRef = firebase.database().ref('blocitoff-react/items');
+  };
+  
+  onChange = (e) => {
+    this.setState({text: e.target.value});
+  };
+  
+  checkEnter = (e) => {
+    if (e.charCode == 13) {
+      this.handleSubmit();
+    }
   };
 
   handleOpen = () => {
@@ -18,32 +34,44 @@ export default class DialogExampleModal extends React.Component {
   handleClose = () => {
     this.setState({open: false});
   };
+  
+  handleSubmit = () => {
+    this.firebaseRef.push({
+      text: this.state.text,
+      createdAt: firebase.database.ServerValue.TIMESTAMP
+    });
+    this.setState({text: "", open: false});
+  };
+  
+  componentWillUnmount = () => {
+    this.firebaseRef.off();
+  };
 
   render() {
     const actions = [
       <FlatButton
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleClose}
+        onClick={this.handleClose}
       />,
       <FlatButton
         label="Submit"
         primary={true}
-        disabled={true}
-        onTouchTap={this.handleClose}
+        disabled={false}
+        onClick={this.handleSubmit}
       />,
     ];
 
     return (
       <div>
-        <RaisedButton label="New Task" onTouchTap={this.handleOpen} />
+        <RaisedButton label="New Task" onClick={this.handleOpen} />
         <Dialog
-          title="Dialog With Actions"
+          title="New Task Title"
           actions={actions}
           modal={true}
           open={this.state.open}
         >
-          Only actions can close this dialog.
+          <input className="input_field" onChange={ this.onChange } value={ this.state.text } onKeyPress={this.checkEnter} />
         </Dialog>
       </div>
     );

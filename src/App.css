@@ -32,3 +32,12 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.button {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.input_field {
+  color: black;
+}

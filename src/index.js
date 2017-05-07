@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-var injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
-import Blocitoff from './Blocitoff';
+
+import App from './App';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 
 ReactDOM.render(
-  <Blocitoff />,
+  <App />,
   document.getElementById('root')
 );
